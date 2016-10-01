@@ -1,0 +1,41 @@
+#!/bin/sh
+
+SOLL=`/usr/local/bin/wie-ist-meine-ip.sh`;
+while [ "x$SOLL" = x -o "x$SOLL" = "x0.0.0.0" ] ; do SOLL=`/usr/local/bin/wie-ist-meine-ip.sh`; sleep 20; done
+
+subject="host=`hostname` ip=$SOLL date=`date +%Y-%m-%d-%X`";
+
+MESSAGE="Mit mailx von zoe.xeo an michalmolako@wp.pl gesendet. \
+ § 1631 Kinder haben ein Recht auf gewaltfreie Erziehung.\
+  Körperliche Bestrafungen, seelische Verletzungen und andere entwürdigende Maßnahmen sind unzulässig.\
+ § 1619 Das Kind ist, solange es dem elterlichen Hausstand angehört und von den Eltern erzogen oder unterhalten wird,\
+  verpflichtet, in einer seinen Kräften und seiner Lebensstellung entsprechenden Weise\
+  den Eltern in ihrem Hauswesen und Geschäft Dienste zu leisten. "
+
+#echo    "Subject " $subject
+#echo    "Programm" $0
+#echo -n "hostname" ""
+#hostname
+#echo    "MESSAGE " $MESSAGE
+
+
+echo $MESSAGE | mailx -a "From: `hostname` cron.hourly <root@googlemail.com>" -s "$subject" michalmolako@wp.pl
+
+exit 0
+
+
+php -r '$to = "michalmolako@wp.pl";$subject = "'"$subject"'"; $message = "'"$MESSAGE "'\n\n'"$0"'\n\n'"$subject"'"; $headers = "From: wurzel@zoe.xeo"; $mail_sent = @mail( $to, $subject, $message, $headers );'
+
+exit 0
+
+
+echo $mail_sent ? "Mail sent\n" : "Mail failed\n";
+
+MESSAGE=" Mit php von zoe.xeo an michalmolako@wp.pl gesendet. \
+ &sect; 1631 Kinder haben ein Recht auf gewaltfreie Erziehung.\
+  K&ouml;rperliche Bestrafungen, seelische Verletzungen und andere entw&uuml;rdigende Ma&szlig;nahmen sind unzul&auml;ssig.\
+ &sect; 1619 Das Kind ist, solange es dem elterlichen Hausstand angeh&ouml;rt und von den Eltern erzogen oder unterhalten wird,\
+  verpflichtet, in einer seinen Kr&auml;ften und seiner Lebensstellung entsprechenden Weise\
+  den Eltern in ihrem Hauswesen und Gesch&auml;ft Dienste zu leisten.\
+"
+
